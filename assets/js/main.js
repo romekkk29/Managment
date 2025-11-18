@@ -129,7 +129,7 @@
 
   // Initial Theme Check
   const themeCheck = () => {
-    if (userTheme === 'dark' || (!userTheme && systemTheme)) {
+    if (userTheme === 'dark' || (!userTheme)) {
       document.documentElement.classList.add('dark');
       return;
     }
@@ -155,4 +155,35 @@
   // invoke theme check on initial load
   themeCheck();
   /* ========  themeSwitcher End ========= */
+
+  /* ========  Formulario ========= */
+
+  const URL = "https://script.google.com/macros/s/AKfycbyKVADTDao_IMOANrfTP2Vw-WyoN_c8lf9GKRostwTzwWKP5tX8JVQ0LA70IK8QzbFo/exec";
+
+  document.getElementById("miForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = Object.fromEntries(new FormData(e.target));
+    console.log(formData)
+    try {
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const result = await response.json();
+
+      if (result.status === "ok") {
+        alert("¡Formulario enviado con éxito!");
+      } else {
+        alert("Hubo un error.");
+      }
+
+    } catch (error) {
+      alert("Error de conexión.");
+    }
+  });
 })();
